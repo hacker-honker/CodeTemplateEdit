@@ -19,11 +19,13 @@ public:
 
     QStringList currTemplate();                          //生成关键字列表的方法
 
+    QString replaceTemplate();                           //对获取内容的关键字进行替换的方法
+
     bool addTemplateValue(QString templateName, QString value);
 
     QString replace(QString filePath);
 
-    QString replaceTemplate();
+
 
 private:
     QMap<QString, QString> m_map_template;

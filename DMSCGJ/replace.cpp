@@ -9,26 +9,6 @@ Replace::Replace(QString content)
 
 
 /**
- * @brief 获取内容中的注释
- * @return
- */
-QString Replace::annotation()
-{
-    QString annotation;
-    int start,end;
-    for(int i=0;i<m_content.size();++i)
-    {
-        if(m_content.mid(i,2) == QString("/*") )            //判断是否为指定字符串/*
-        {
-            start = m_content.indexOf("/*",i);              //指定字符串/*的下标
-            end = m_content.indexOf("*/",i);                //指定字符串*/的下标
-            annotation = m_content.mid(start,end-start+2);  //注释的内容
-        }
-    }
-    return annotation;      //返回值为内容的头部注释
-}
-
-/**
  * @brief 判断关键字是否有效
  * @param templateName
  * @return
@@ -79,17 +59,13 @@ QString Replace::replaceTemplate()
 {
     QStringList list = currTemplate();      //获取关键字的列表
     QString content;
-    QString anno = annotation();            //获取内容的头部注释
-    content = m_content;
-    content = content.remove(anno);         //删除内容中的头部注释
     qDebug()<< list;
+
     for(int i=0;i<list.size();++i)
     {
-
-        content = content.replace("$("+list.at(i)+")","replaced");      //替换内容中那个的关键字
+        content = m_content.replace("$("+list.at(i)+")","replaced");      //替换内容中那个的关键字
 
     }
-    content = anno.append(content);         //将头部注释重新加入内容中
     return content;
 }
 
