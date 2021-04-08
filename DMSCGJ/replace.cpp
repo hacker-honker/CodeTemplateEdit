@@ -2,24 +2,93 @@
 #include <QString>
 #include <QDebug>
 
-Replace::Replace()
+Replace::Replace(QString content)
 {
-
+    m_content = content;
 }
 
-void Replace::replaceStr(){
-    QString str="sf /,.fee$qqq$w.d;$qqq$";
+/**
+ * @brief 判断关键字是否有效
+ * @param templateName
+ * @return
+ */
+bool Replace::templateValid(QString templateName)
+{
+    if(templateName.isEmpty())
+    {
+        return false;
+    }
+    return true;
+}
 
-    int size=str.size();
-    int mid=0;
+/**
+ * @brief 获取当前内容中所有的关键字
+ * @return
+ */
+QStringList Replace::currTemplate()
+{
+
+    QStringList currTemplate;    //创建一个字符串列表对象
+    QString templateName;
     int start,end;
-    start=str.indexOf("$",mid);//第一个$的下标
-    end=str.indexOf("$",start+1);//第二个$的下标
-    QString subStr=str.mid(start,end-start+1);//两个标识符之间的字符串
-    qDebug()<< "字符串长度:" << size
-            << "第一个$的下标:" << start
-            << "第二个$的下标:"<< end
-            << "两个标识符之间的字符串:" << subStr;
-    QString strReplace=str.replace(subStr,"000");
-    qDebug()<< "替换后的字符串:" << strReplace;
+    for(int i=0;i<m_content.size();++i)
+    {
+        if(m_content.mid(i,2) == QString("$(") )            //判断是否为指定字符串$(
+        {
+            start = m_content.indexOf("$(",i);  //指定字符串$(的下标
+            end = m_content.indexOf(")",i);     //指定字符串)的下标
+            templateName = m_content.mid(start+2,end-start-2);  //关键字
+            if(templateValid(templateName))
+            {
+                if(!currTemplate.contains(templateName))
+                {
+                    currTemplate << templateName;         //加入字符串列表
+                }
+            }
+
+        }
+    }
+    return currTemplate;  //返回列表
+}
+
+/**
+ * @brief 对获取内容的关键字进行替换
+ */
+QString Replace::replaceTemplate()
+{
+    QStringList list = currTemplate();
+    QString content;
+    qDebug()<< list;
+    for(int i=0;i<list.size();++i)
+    {
+        content = m_content.replace("$("+list.at(i)+")","000");
+    }
+    return content;
+}
+
+/**
+ * @brief 添加关键字和对应的值
+ * @param key
+ * @param value
+ */
+bool Replace::addTemplateValue(QString templateName, QString value)
+{
+    if(!m_map_template.contains(templateName))
+    {
+        m_map_template.insert(templateName,value);
+        return true;
+    }
+    return false;
+}
+
+
+/**
+ * @brief Replace::replace
+ * @param templateName
+ * @param filaPath 文件路径
+ * @return
+ */
+QString Replace::replace(QString filePath)
+{
+
 }

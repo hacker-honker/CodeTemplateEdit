@@ -15,10 +15,18 @@ public:
     explicit DMSCGJ(QWidget *parent = 0);
     ~DMSCGJ();
 
+
+
+private slots:
+    void on_actionReadTest_triggered();
+
+private:
+    void initMenubar();
+
 private:
     Ui::DMSCGJ *ui;
 
-    void initMenubar();
+
 };
 
 #endif // DMSCGJ_H

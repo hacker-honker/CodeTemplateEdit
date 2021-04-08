@@ -83,9 +83,23 @@
      <x>0</x>
      <y>0</y>
      <width>864</width>
-     <height>23</height>
+     <height>26</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>文件</string>
+    </property>
+    <addaction name="actionNewProject"/>
+   </widget>
+   <widget class="QMenu" name="menu_2">
+    <property name="title">
+     <string>测试</string>
+    </property>
+    <addaction name="actionReadTest"/>
+   </widget>
+   <addaction name="menu"/>
+   <addaction name="menu_2"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -96,6 +110,16 @@
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionNewProject">
+   <property name="text">
+    <string>NewProject</string>
+   </property>
+  </action>
+  <action name="actionReadTest">
+   <property name="text">
+    <string>readTest</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
