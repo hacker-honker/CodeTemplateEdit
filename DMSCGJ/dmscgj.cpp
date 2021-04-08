@@ -35,8 +35,8 @@ void DMSCGJ::initMenubar()
 void DMSCGJ::on_actionReadTest_triggered()
 {
     //读取文件
-    QFile file("MyTest.h");
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    QFile fileRead("MyTest.h");
+    if (!fileRead.open(QIODevice::ReadOnly | QIODevice::Text))
     {
         QMessageBox::warning(this, tr("My Application"),
                              tr("file open error"),
@@ -44,10 +44,10 @@ void DMSCGJ::on_actionReadTest_triggered()
         return;
     }
 
-    QTextStream in(&file);
+    QTextStream in(&fileRead);
     in.setCodec("UTF-8");
     QString t_content = in.readAll();
-    file.close();
+    fileRead.close();
 
     //替换当前内容的关键字
     Replace a(t_content);
@@ -56,7 +56,18 @@ void DMSCGJ::on_actionReadTest_triggered()
            <<""<<content
           <<"\n";
 
-    QFile file_out("Out.h");
+    //写入文件
+    QFile fileWrite("MyTestOut.h");
+          if (!fileWrite.open(QIODevice::WriteOnly | QIODevice::Text))
+          {
+              QMessageBox::warning(this, tr("My Application"),
+                                   tr("file open error"),
+                                   QMessageBox::Ok);
+              return;
+          }
+          QTextStream out(&fileWrite);
+          out << content;
+          fileWrite.close();
 
 
 }

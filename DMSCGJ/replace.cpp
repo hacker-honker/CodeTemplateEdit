@@ -7,6 +7,27 @@ Replace::Replace(QString content)
     m_content = content;
 }
 
+
+/**
+ * @brief 获取内容中的注释
+ * @return
+ */
+QString Replace::annotation()
+{
+    QString annotation;
+    int start,end;
+    for(int i=0;i<m_content.size();++i)
+    {
+        if(m_content.mid(i,2) == QString("/*") )            //判断是否为指定字符串/*
+        {
+            start = m_content.indexOf("/*",i);              //指定字符串/*的下标
+            end = m_content.indexOf("*/",i);                //指定字符串*/的下标
+            annotation = m_content.mid(start,end-start+2);  //注释的内容
+        }
+    }
+    return annotation;      //返回值为内容的头部注释
+}
+
 /**
  * @brief 判断关键字是否有效
  * @param templateName
@@ -28,21 +49,21 @@ bool Replace::templateValid(QString templateName)
 QStringList Replace::currTemplate()
 {
 
-    QStringList currTemplate;    //创建一个字符串列表对象
+    QStringList currTemplate;                                   //创建一个字符串列表对象
     QString templateName;
     int start,end;
     for(int i=0;i<m_content.size();++i)
     {
-        if(m_content.mid(i,2) == QString("$(") )            //判断是否为指定字符串$(
+        if(m_content.mid(i,2) == QString("$(") )                //判断是否为指定字符串$(
         {
-            start = m_content.indexOf("$(",i);  //指定字符串$(的下标
-            end = m_content.indexOf(")",i);     //指定字符串)的下标
+            start = m_content.indexOf("$(",i);                  //指定字符串$(的下标
+            end = m_content.indexOf(")",i);                     //指定字符串)的下标
             templateName = m_content.mid(start+2,end-start-2);  //关键字
             if(templateValid(templateName))
             {
-                if(!currTemplate.contains(templateName))
+                if(!currTemplate.contains(templateName))        //若关键字不存在，则加入列表
                 {
-                    currTemplate << templateName;         //加入字符串列表
+                    currTemplate << templateName;               //加入字符串列表
                 }
             }
 
@@ -56,13 +77,19 @@ QStringList Replace::currTemplate()
  */
 QString Replace::replaceTemplate()
 {
-    QStringList list = currTemplate();
+    QStringList list = currTemplate();      //获取关键字的列表
     QString content;
+    QString anno = annotation();            //获取内容的头部注释
+    content = m_content;
+    content = content.remove(anno);         //删除内容中的头部注释
     qDebug()<< list;
     for(int i=0;i<list.size();++i)
     {
-        content = m_content.replace("$("+list.at(i)+")","000");
+
+        content = content.replace("$("+list.at(i)+")","replaced");      //替换内容中那个的关键字
+
     }
+    content = anno.append(content);         //将头部注释重新加入内容中
     return content;
 }
 

@@ -13,10 +13,14 @@ class Replace
 public:
     Replace(QString content);
 
-    bool templateValid(QString templateName);
-    QStringList currTemplate();
+    QString annotation();                                //获取内容头部注释的方法
+
+    bool templateValid(QString templateName);            //判断关键字是否有效
+
+    QStringList currTemplate();                          //生成关键字列表的方法
 
     bool addTemplateValue(QString templateName, QString value);
+
     QString replace(QString filePath);
 
     QString replaceTemplate();
