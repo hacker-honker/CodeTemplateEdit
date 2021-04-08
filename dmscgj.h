@@ -3,6 +3,9 @@
 
 #include <QMainWindow>
 
+#include <QStandardItem>
+#include <QFileDialog>
+
 namespace Ui {
 class DMSCGJ;
 }
@@ -15,17 +18,20 @@ public:
     explicit DMSCGJ(QWidget *parent = 0);
     ~DMSCGJ();
 
-
-
-private slots:
-    void on_actionReadTest_triggered();
-
-private:
-    void initMenubar();
-
 private:
     Ui::DMSCGJ *ui;
 
+    void initMenubar();
+
+private slots:
+    void openFile();
+    void openFiles(QString path, QStandardItem* temp);
+
+    void saveFile();
+
+    void showFile(const QModelIndex &index);
+
+    void showValue();
 
 };
 

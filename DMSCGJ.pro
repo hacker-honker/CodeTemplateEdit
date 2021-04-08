@@ -11,11 +11,10 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = DMSCGJ
 TEMPLATE = app
 
-DESTDIR = ./Bin
 
 SOURCES += main.cpp\
         dmscgj.cpp \
-    replace.cpp
+        replace.cpp
 
 HEADERS  += dmscgj.h \
     replace.h
